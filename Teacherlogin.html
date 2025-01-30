@@ -13,7 +13,7 @@
     <div class="navbar">
         <h1>EduLink Scheduler</h1>
         <ul>
-            <li><a href="Home.html">Home</a></li>
+            <li><a href="home.html">Home</a></li>
         </ul>
     </div>
 
@@ -37,7 +37,43 @@
         <p>&copy; 2025 EduLink Scheduler. All Rights Reserved.</p>
         <p>Contact us: <a href="mailto:support@edulink.com">support@edulink.com</a></p>
     </footer>
-   
-    <script type="module" src="teacherlogin"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3l_u9bo3mcur-zPW0ldb3ISaMyS-vo3U",
+            authDomain: "student-teachers-booking.firebaseapp.com",
+            projectId: "student-teachers-booking",
+            storageBucket: "student-teachers-booking.firebasestorage.app",
+            messagingSenderId: "987803054744",
+            appId: "1:987803054744:web:fd12e500d0d8aa5c1296ed",
+            measurementId: "G-PTHZ04LCTK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginForm = document.getElementById('teacher-login-form');
+        const loginMessage = document.getElementById('login-message');
+
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Login successful
+                    window.location.href = 'Teacherdashboard.html';
+                })
+                .catch((error) => {
+                    // Handle errors
+                    loginMessage.textContent = 'Invalid email or password.';
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 </body>
 </html>
