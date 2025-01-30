@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | EduLink Scheduler</title>
+    <link rel="stylesheet" href="admindashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styling */
+        .btn.large-btn {
+            width: 200px;
+            height: 50px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #show-student-requests-btn {
+            margin-top: 30px;  /* Margin from top */
+        }
+
+        .approve-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+
+        .form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>EduLink Scheduler</h1>
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="admindashboard.html">Teacher Management</a></li>
+            <li><a href="Home.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Admin Dashboard Section -->
+    <section id="admin-dashboard">
+        <div class="section" id="teacher-management">
+            <h2>Add Teacher Information</h2>
+            <form id="add-teacher-form" class="form">
+                <label for="teacher-name">Teacher Name</label>
+                <input type="text" id="teacher-name" placeholder="Enter teacher's name" required>
+
+                <label for="teacher-department">Department</label>
+                <input type="text" id="teacher-department" placeholder="Enter teacher's department" required>
+
+                <label for="teacher-subject">Subject</label>
+                <input type="text" id="teacher-subject" placeholder="Enter teacher's subject" required>
+
+                <button type="button" id="add-teacher-btn" class="btn">Add Teacher</button>
+            </form>
+
+            <h2>Remove or Update Teacher</h2>
+            <form id="remove-update-teacher-form" class="form">
+                <label for="remove-teacher-name">Enter Teacher's Name to Remove/Update</label>
+                <input type="text" id="remove-teacher-name" placeholder="Enter teacher's name" required>
+
+                <button type="button" id="remove-teacher-btn" class="btn">Remove Teacher</button>
+                <button type="button" id="update-teacher-btn" class="btn">Update Teacher</button>
+            </form>
+
+            <h2>Teacher List</h2>
+            <table id="teacher-list">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody id="teacher-list-body">
+                    <!-- Teacher list will be dynamically inserted here -->
+                </tbody>
+            </table>
+
+            <!-- Button to show Student Requests -->
+            <button id="show-student-requests-btn" class="btn large-btn">Show Student Requests</button>
+        </div>
+
+        <div class="section" id="student-requests" style="display: none;">
+            <h2>Student Requests</h2>
+            <table id="student-requests-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Approve</th>
+                    </tr>
+                </thead>
+                <tbody id="student-requests-body">
+                    <!-- Student requests will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EduLink Scheduler. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+        import { getDatabase, ref, set, get, update, remove } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3l_u9bo3mcur-zPW0ldb3ISaMyS-vo3U",
+            authDomain: "student-teachers-booking.firebaseapp.com",
+            projectId: "student-teachers-booking",
+            storageBucket: "student-teachers-booking.firebasestorage.app",
+            messagingSenderId: "987803054744",
+            appId: "1:987803054744:web:fd12e500d0d8aa5c1296ed",
+            measurementId: "G-PTHZ04LCTK",
+            databaseURL: "https://student-teachers-booking-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // Add Teacher Functionality
+        document.getElementById("add-teacher-btn").addEventListener("click", () => {
+            const name = document.getElementById("teacher-name").value;
+            const department = document.getElementById("teacher-department").value;
+            const subject = document.getElementById("teacher-subject").value;
+
+            // Save teacher information in the 'teachers' node in Firebase
+            const teacherId = new Date().getTime();  // Use a timestamp as teacher ID
+            set(ref(database, `teachers/${teacherId}`), {
+                name: name,
+                department: department,
+                subject: subject
+            })
+            .then(() => {
+                alert("Teacher added successfully!");
+                document.getElementById("add-teacher-form").reset();
+                loadTeachers();
+            })
+            .catch((error) => {
+                alert("Error: " + error.message);
+            });
+        });
+
+        // Load Teacher List from Firebase
+        function loadTeachers() {
+            get(ref(database, "teachers")).then((snapshot) => {
+                const teachers = snapshot.val();
+                const teacherListBody = document.getElementById("teacher-list-body");
+                teacherListBody.innerHTML = '';  // Clear current list
+                for (const teacherId in teachers) {
+                    const teacher = teachers[teacherId];
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${teacher.name}</td>
+                        <td>${teacher.department}</td>
+                        <td>${teacher.subject}</td>
+                    `;
+                    teacherListBody.appendChild(row);
+                }
+            });
+        }
+
+        // Remove Teacher Functionality
+        document.getElementById("remove-teacher-btn").addEventListener("click", () => {
+            const teacherNameToRemove = document.getElementById("remove-teacher-name").value;
+
+            get(ref(database, "teachers")).then((snapshot) => {
+                const teachers = snapshot.val();
+                let teacherToRemove = null;
+                let teacherIdToRemove = null;
+
+                // Search for the teacher by name
+                for (const teacherId in teachers) {
+                    if (teachers[teacherId].name === teacherNameToRemove) {
+                        teacherToRemove = teachers[teacherId];
+                        teacherIdToRemove = teacherId;
+                        break;
+                    }
+                }
+
+                if (teacherToRemove) {
+                    // Remove teacher from Firebase
+                    remove(ref(database, `teachers/${teacherIdToRemove}`))
+                        .then(() => {
+                            alert("Teacher removed successfully!");
+                            loadTeachers();
+                        })
+                        .catch((error) => {
+                            alert("Error: " + error.message);
+                        });
+                } else {
+                    alert("Teacher not found!");
+                }
+            });
+        });
+
+        // Update Teacher Functionality
+        document.getElementById("update-teacher-btn").addEventListener("click", () => {
+            const teacherNameToUpdate = document.getElementById("remove-teacher-name").value;
+            const newDepartment = prompt("Enter new department:");
+            const newSubject = prompt("Enter new subject:");
+
+            if (newDepartment && newSubject) {
+                get(ref(database, "teachers")).then((snapshot) => {
+                    const teachers = snapshot.val();
+                    let teacherToUpdate = null;
+                    let teacherIdToUpdate = null;
+
+                    // Search for the teacher by name
+                    for (const teacherId in teachers) {
+                        if (teachers[teacherId].name === teacherNameToUpdate) {
+                            teacherToUpdate = teachers[teacherId];
+                            teacherIdToUpdate = teacherId;
+                            break;
+                        }
+                    }
+
+                    if (teacherToUpdate) {
+                        // Update teacher information in Firebase
+                        update(ref(database, `teachers/${teacherIdToUpdate}`), {
+                            department: newDepartment,
+                            subject: newSubject
+                        })
+                        .then(() => {
+                            alert("Teacher updated successfully!");
+                            loadTeachers();
+                        })
+                        .catch((error) => {
+                            alert("Error: " + error.message);
+                        });
+                    } else {
+                        alert("Teacher not found!");
+                    }
+                });
+            } else {
+                alert("Please provide valid input for both department and subject.");
+            }
+        });
+
+        // Load Student Requests from Firebase (Functionality for student requests)
+        function loadStudentRequests() {
+            get(ref(database, "students")).then((snapshot) => {
+                const students = snapshot.val();
+                const studentRequestsBody = document.getElementById("student-requests-body");
+                studentRequestsBody.innerHTML = '';  // Clear current list
+                for (const studentId in students) {
+                    const student = students[studentId];
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                        <td>${student.department}</td>
+                        <td><input type="checkbox" class="approve-checkbox" data-student-id="${studentId}"></td>
+                    `;
+                    studentRequestsBody.appendChild(row);
+                }
+            });
+        }
+
+        // Show Student Requests on Button Click
+        document.getElementById("show-student-requests-btn").addEventListener("click", () => {
+            loadStudentRequests();
+            document.getElementById("student-requests").style.display = "block";
+        });
+    </script>
+</body>
+</html>

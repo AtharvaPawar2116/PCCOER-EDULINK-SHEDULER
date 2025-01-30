@@ -1,0 +1,133 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ddd;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #1c1c1c;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: white;
+    margin: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar ul li a:hover {
+    color: #f4c542;
+}
+
+/* Section */
+section {
+    padding: 2rem;
+}
+
+h2 {
+    color: #f4c542;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: #f4c542;
+    margin-top: 2rem;
+}
+
+/* Filter Form */
+label {
+    display: block;
+    margin: 0.5rem 0;
+    color: #ddd;
+}
+
+input {
+    background-color: #333;
+    color: #ddd;
+    border: none;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #f4c542;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #c9a02c;
+}
+
+/* Teachers List */
+#teachers-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#teachers-list ul li {
+    background-color: #333;
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+/* Appointment Form */
+#appointment-form {
+    margin-top: 2rem;
+}
+
+#appointment-form input {
+    margin-bottom: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Footer */
+footer {
+    background-color: #1c1c1c;
+    padding: 1rem;
+    text-align: center;
+    color: #ddd;
+    margin-top: 2rem;
+}
+
+footer a {
+    color: #f4c542;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #c9a02c;
+}

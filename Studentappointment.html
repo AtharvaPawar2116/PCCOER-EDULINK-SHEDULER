@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Appointment | EduLink Scheduler</title>
+    <link rel="stylesheet" href="studentappointment.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>EduLink Scheduler</h1>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+        </ul>
+    </div>
+
+    <!-- Appointment Section -->
+    <section id="appointment">
+        <h2>Book an Appointment</h2>
+
+        <!-- Filter Form -->
+        <div>
+            <label for="subject-filter">Filter by Subject:</label>
+            <input type="text" id="subject-filter" placeholder="Enter subject">
+            
+            <label for="department-filter">Filter by Department:</label>
+            <input type="text" id="department-filter" placeholder="Enter department">
+
+            <button id="filter-button">Apply Filters</button>
+            <button id="fetch-data-button">Fetch Teachers</button>
+        </div>
+
+        <!-- Teachers List -->
+        <div id="teachers-list">
+            <h3>Available Teachers</h3>
+            <ul id="teacher-ul"></ul>
+        </div>
+
+        <!-- Appointment Request Form -->
+        <form id="appointment-form">
+            <label for="teacher-name">Teacher's Name:</label>
+            <input type="text" id="teacher-name" placeholder="Teacher's name" required>
+
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" placeholder="Subject" required>
+
+            <label for="department">Department:</label>
+            <input type="text" id="department" placeholder="Department" required>
+
+            <label for="reason">Reason for Appointment:</label>
+            <textarea id="reason" placeholder="Enter the reason for the appointment" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EduLink Scheduler. All Rights Reserved.</p>
+        <p>Contact us: <a href="mailto:support@edulink.com">support@edulink.com</a></p>
+    </footer>
+
+    <script type="module" src="studentappointment"></script>"></script>
+
+</body>
+</html>

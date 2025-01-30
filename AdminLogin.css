@@ -1,0 +1,122 @@
+/* adminLogin.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #ddd;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #1c1c1c;
+    color: #f4c542;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    margin: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #f4c542;
+}
+
+.section {
+    padding: 20px;
+    flex: 1;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    background-color: #1c1c1c;
+    border: 1px solid #666;
+    padding: 40px 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.auth-form {
+    width: 100%;
+    padding: 30px;
+    background-color: #121212;
+    border: 1px solid #666;
+    border-radius: 10px;
+}
+
+.auth-form h2 {
+    margin-bottom: 20px;
+    color: #f4c542;
+    text-align: center;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-color: #1c1c1c;
+    color: #ddd;
+    font-size: 16px;
+}
+
+.auth-form .btn {
+    background-color: #f4c542;
+    color: #1c1c1c;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.auth-form .btn:hover {
+    background-color: #ddd;
+    color: #1c1c1c;
+}
+
+footer {
+    text-align: center;
+    background-color: #1c1c1c;
+    color: #666;
+    padding: 10px 20px;
+    margin-top: auto;
+}
+
+footer a {
+    color: #f4c542;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

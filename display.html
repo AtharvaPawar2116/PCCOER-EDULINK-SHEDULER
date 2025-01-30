@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and Display Data</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Student Data</h1>
+    <div class="btn-group">
+        <button id="fetchbtn">Fetch Data</button>
+    </div>
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Name</th>
+                <th>Section</th>
+                <th>Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9c56RHjdkfv3As_B4paNHLLo33AyXijo",
+            authDomain: "project1-a194f.firebaseapp.com",
+            projectId: "project1-a194f",
+            storageBucket: "project1-a194f.appspot.com",
+            messagingSenderId: "391298026661",
+            appId: "1:391298026661:web:8fee318082a2bdca0a514c",
+            measurementId: "G-V2E84P1YBW"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        // Table and button elements
+        const fetchbtn = document.getElementById("fetchbtn");
+        const studentTable = document.getElementById("studentTable").querySelector("tbody");
+
+        // Fetch and display data function
+        function fetchAndDisplayData() {
+            const dbref = ref(db);
+            get(child(dbref, "TheStudents"))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        // Clear existing table rows
+                        studentTable.innerHTML = "";
+
+                        // Loop through the data and append rows to the table
+                        snapshot.forEach((childSnapshot) => {
+                            const data = childSnapshot.val();
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${data.RollNo}</td>
+                                <td>${data.NameOfStd}</td>
+                                <td>${data.Section}</td>
+                                <td>${data.Gender}</td>
+                            `;
+                            studentTable.appendChild(row);
+                        });
+                    } else {
+                        alert("No data available in the database");
+                    }
+                })
+                .catch((error) => {
+                    alert("Error fetching data: " + error);
+                });
+        }
+
+        // Event listener for fetch button
+        fetchbtn.addEventListener("click", fetchAndDisplayData);
+    </script>
+</body>
+</html>

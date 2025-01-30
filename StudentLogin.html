@@ -1,0 +1,181 @@
+
+
+
+
+
+
+
+
+
+<!-- ADD search teacher book apointment and send messag. -->
+<!-- Studentappointmente -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student and Teacher Login | EduLink Scheduler</title>
+    <link rel="stylesheet" href="studentlogin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>EduLink Scheduler</h1>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+        </ul>
+    </div>
+
+    <!-- Student Login Header -->
+    <header id="student-login-header" class="section">
+        <h1 style="text-align: center; color: #f4c542; margin: 20px 0;">Student Login</h1>
+    </header>
+
+    <!-- Student Login and Registration -->
+    <section id="auth-section" class="section">
+        <div class="auth-container">
+            <!-- Login Form -->
+            <div class="auth-form">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" name="login-email" placeholder="Enter your email" required>
+
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="login-password" placeholder="Enter your password" required>
+
+                    <button type="button" id="login-btn" class="btn">Login</button>
+                </form>
+            </div>
+
+           <!-- Registration Form -->
+<div class="auth-form">
+    <h2>Register</h2>
+    <form id="register-form">
+
+
+     
+        <!-- New fields for name and department -->
+        <label for="register-name">Name</label>
+        <input type="text" id="register-name" name="register-name" placeholder="Enter your name" required>
+
+        <label for="register-department">Department</label>
+        <input type="text" id="register-department" name="register-department" placeholder="Enter your department" required>
+
+
+
+        <label for="register-email">Email</label>
+        <input type="email" id="register-email" name="register-email" placeholder="Enter your email" required>
+
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" name="register-password" placeholder="Enter your password" required>
+cc
+
+        <button type="button" id="register-btn" class="btn">Register</button>
+    </form>
+</div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EduLink Scheduler. All Rights Reserved.</p>
+        <p>Contact us: <a href="mailto:support@edulink.com">support@edulink.com</a> | Phone: +1 (555) 123-4567</p>
+        <p>Follow us: 
+            <a href="#">Facebook</a> | 
+            <a href="#">Twitter</a> | 
+            <a href="#">LinkedIn</a>
+        </p>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA3l_u9bo3mcur-zPW0ldb3ISaMyS-vo3U",
+            authDomain: "student-teachers-booking.firebaseapp.com",
+            projectId: "student-teachers-booking",
+            storageBucket: "student-teachers-booking.firebasestorage.app",
+            messagingSenderId: "987803054744",
+            appId: "1:987803054744:web:fd12e500d0d8aa5c1296ed",
+            measurementId: "G-PTHZ04LCTK",
+            databaseURL: "https://student-teachers-booking-default-rtdb.firebaseio.com/"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+       // Register Functionality
+document.getElementById("register-btn").addEventListener("click", () => {
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
+    const name = document.getElementById("register-name").value;  // Get name from the new input
+    const department = document.getElementById("register-department").value;  // Get department from the new input
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const userId = userCredential.user.uid;
+
+            // Save user data to the database
+            set(ref(database, `students/${userId}`), {
+                name: name,
+                email: email,
+                password: password,
+                department: department
+            })
+                .then(() => {
+                    alert("Registration successful! Please log in to continue.");
+                    // Clear the registration form fields
+                    document.getElementById("register-form").reset();
+                })
+                .catch((error) => {
+                    alert("Error saving data: " + error.message);
+                });
+        })
+        .catch((error) => {
+            alert("Error: " + error.message);
+        });
+});
+
+
+        // Login Functionality
+        document.getElementById("login-btn").addEventListener("click", () => {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Login successful!");
+                    window.location.href = "Studentappointment.html";
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>

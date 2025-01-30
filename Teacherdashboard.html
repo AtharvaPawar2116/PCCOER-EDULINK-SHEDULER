@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard | EduLink Scheduler</title>
+    <link rel="stylesheet" href="teacherdashboard.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js"></script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>EduLink Scheduler</h1>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+        </ul>
+    </div>
+
+    <!-- Teacher Dashboard Section -->
+    <section id="teacher-dashboard">
+        <h2>Appointment Requests</h2>
+
+        <!-- Centered Fetch Appointment Data Button -->
+        <div class="button-container">
+            <button id="fetch-appointments-button">Fetch Appointment Requests</button>
+        </div>
+
+        <!-- Appointment Requests Table -->
+        <div id="appointments-list">
+            <h3>Pending Appointments</h3>
+            <table id="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Teacher Name</th>
+                        <th>Subject</th>
+                        <th>Department</th>
+                        <th>Reason</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="appointments-tbody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EduLink Scheduler. All Rights Reserved.</p>
+        <p>Contact us: <a href="mailto:support@edulink.com">support@edulink.com</a></p>
+    </footer>
+
+    
+</body>
+</html>
