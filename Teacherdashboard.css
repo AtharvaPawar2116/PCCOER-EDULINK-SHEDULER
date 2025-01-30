@@ -112,3 +112,30 @@ footer a {
 footer a:hover {
     color: #c9a02c;
 }
+
+#approve-selected-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#approve-selected-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+#approve-selected-button:active {
+    background-color: #1e7e34;
+    transform: scale(1);
+}
+
