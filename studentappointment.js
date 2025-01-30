@@ -1,5 +1,4 @@
-
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
         const firebaseConfig = {
@@ -60,6 +59,7 @@
         appointmentForm.addEventListener('submit', (event) => {
             event.preventDefault();
             const teacherName = document.getElementById('teacher-name').value;
+            const studentName = document.getElementById('student-name').value;
             const subject = document.getElementById('subject').value;
             const department = document.getElementById('department').value;
             const reason = document.getElementById('reason').value;
@@ -67,6 +67,7 @@
             const appointmentRef = ref(db, 'appointments');
             push(appointmentRef, {
                 teacherName,
+                studentName,
                 subject,
                 department,
                 reason
