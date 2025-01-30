@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard | EduLink Scheduler</title>
-    <link rel="stylesheet" href="Teacherdashboard.css">
+    <link rel="stylesheet" href="teacherdashboard.css">
     <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js"></script>
 </head>
@@ -22,6 +22,11 @@
     <section id="teacher-dashboard">
         <h2>Appointment Requests</h2>
 
+        <!-- Approve Selected Requests Button -->
+        <div class="button-container">
+            <button id="approve-selected-button">Approve Selected Requests</button>
+        </div>
+
         <!-- Centered Fetch Appointment Data Button -->
         <div class="button-container">
             <button id="fetch-appointments-button">Fetch Appointment Requests</button>
@@ -33,11 +38,13 @@
             <table id="appointments-table">
                 <thead>
                     <tr>
+                        <th>Student Name</th>
                         <th>Teacher Name</th>
                         <th>Subject</th>
                         <th>Department</th>
                         <th>Reason</th>
-                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Select</th>
                     </tr>
                 </thead>
                 <tbody id="appointments-tbody"></tbody>
@@ -79,6 +86,10 @@
                 for (const key in data) {
                     const row = document.createElement('tr');
                     
+                    const studentName = document.createElement('td');
+                    studentName.textContent = data[key].studentName;
+                    row.appendChild(studentName);
+
                     const teacherName = document.createElement('td');
                     teacherName.textContent = data[key].teacherName;
                     row.appendChild(teacherName);
@@ -94,46 +105,39 @@
                     const reason = document.createElement('td');
                     reason.textContent = data[key].reason;
                     row.appendChild(reason);
-
-                    const actionCell = document.createElement('td');
-                    const approveButton = document.createElement('button');
-                    approveButton.textContent = 'Approve';
-                    approveButton.addEventListener('click', () => approveAppointment(key));
                     
-                    const rejectButton = document.createElement('button');
-                    rejectButton.textContent = 'Reject';
-                    rejectButton.addEventListener('click', () => rejectAppointment(key));
+                    const statusCell = document.createElement('td');
+                    statusCell.textContent = data[key].status || 'Pending';
+                    row.appendChild(statusCell);
 
-                    actionCell.appendChild(approveButton);
-                    actionCell.appendChild(rejectButton);
-                    row.appendChild(actionCell);
+                    const selectCell = document.createElement('td');
+                    const selectCheckbox = document.createElement('input');
+                    selectCheckbox.type = 'checkbox';
+                    selectCheckbox.dataset.key = key;
+                    selectCell.appendChild(selectCheckbox);
+                    row.appendChild(selectCell);
 
                     appointmentsTbody.appendChild(row);
                 }
             });
         };
 
-        // Approve appointment
-        const approveAppointment = (key) => {
-            const appointmentRef = ref(db, `appointments/${key}`);
-            update(appointmentRef, { status: 'Approved' }).then(() => {
-                alert('Appointment approved!');
-            }).catch((error) => {
-                console.error('Error approving appointment:', error);
-            });
-        };
-
-        // Reject appointment
-        const rejectAppointment = (key) => {
-            const appointmentRef = ref(db, `appointments/${key}`);
-            update(appointmentRef, { status: 'Rejected' }).then(() => {
-                alert('Appointment rejected!');
-            }).catch((error) => {
-                console.error('Error rejecting appointment:', error);
+        // Approve selected appointments
+        const approveSelectedAppointments = () => {
+            const checkboxes = document.querySelectorAll('#appointments-tbody input[type="checkbox"]:checked');
+            checkboxes.forEach((checkbox) => {
+                const key = checkbox.dataset.key;
+                const appointmentRef = ref(db, `appointments/${key}`);
+                update(appointmentRef, { status: 'Approved' }).then(() => {
+                    checkbox.closest('tr').querySelector('td:nth-child(6)').textContent = 'Approved';
+                }).catch((error) => {
+                    console.error('Error approving appointment:', error);
+                });
             });
         };
 
         document.getElementById('fetch-appointments-button').addEventListener('click', fetchAppointments);
+        document.getElementById('approve-selected-button').addEventListener('click', approveSelectedAppointments);
     </script>
 </body>
 </html>
