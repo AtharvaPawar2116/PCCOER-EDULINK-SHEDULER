@@ -1,9 +1,8 @@
 
-// Import the Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
-// Firebase configuration
+
 const firebaseConfig = {
     apiKey: "AIzaSyA3l_u9bo3mcur-zPW0ldb3ISaMyS-vo3U",
     authDomain: "student-teachers-booking.firebaseapp.com",
@@ -14,15 +13,11 @@ const firebaseConfig = {
     measurementId: "G-PTHZ04LCTK"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-// Admin email and password (hardcoded for this example)
 const adminEmail = "admin123@gmail.com";
-const adminPassword = "7020032496";
-
-// Handle form submission
+const adminPassword = "7020032496"
 const loginForm = document.getElementById("admin-login-form");
 const errorMessage = document.getElementById("error-message");
 
