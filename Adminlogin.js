@@ -44,3 +44,4 @@ loginForm.addEventListener("submit", (event) => {
         errorMessage.textContent = "Invalid credentials. Please try again.";
     }
 });
+
